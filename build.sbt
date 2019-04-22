@@ -24,17 +24,17 @@ libraryDependencies ++= Seq(
   "org.apache.hadoop" % "hadoop-client" % "2.2.0",
   //"org.scala-lang.modules" %% "scala-xml" % "1.1.1",
   "com.typesafe" % "config" % "1.2.1",
-  "org.apache.spark" %% "spark-core" % "2.3.2" % "provided",
-  "org.apache.spark" %% "spark-sql" % "2.3.2" % "provided",
-  "com.databricks" %% "spark-xml" % "0.5.0" % "provided",
+  "org.apache.spark" %% "spark-core" % "2.3.2",
+  "org.apache.spark" %% "spark-sql" % "2.3.2",
+  "com.databricks" %% "spark-xml" % "0.5.0",
   "org.scalactic" %% "scalactic" % "3.0.5",
   "org.scalatest" %% "scalatest" % "3.0.5" % "test"
 
 )
 
-mainClass in (Compile, packageBin) := Some("com.uic.spark.Main")
-mainClass in (Compile, run) := Some("com.uic.spark.Main")
-mainClass in assembly := Some("com.uic.spark.Main")
+mainClass in (Compile, packageBin) := Some("com.uic.spark.PageRankMain")
+mainClass in (Compile, run) := Some("com.uic.spark.PageRankMain")
+mainClass in assembly := Some("com.uic.spark.PageRankMain")
 
 assemblyMergeStrategy in assembly := {
   case PathList("META-INF", xs @ _*) => MergeStrategy.discard

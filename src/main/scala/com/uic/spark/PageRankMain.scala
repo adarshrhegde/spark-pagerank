@@ -106,7 +106,7 @@ object PageRankMain {
       */
     val df = sparkSession.sqlContext.read.format(config.getString("spark.xmlLibrary"))
       .option("rowTag", config.getString("spark.rowTag"))
-      .load(config.getString("spark.filePath"))
+      .load(args(0))
 
     // Accumulator is used to collect values from the distributed processes
     val mappings : List[Tuple2[String, String]] = obj.createMappings(sparkSession, df)
@@ -117,11 +117,14 @@ object PageRankMain {
     logger.info("Starting computation of page ranks")
 
     // Compute the page rank
-    for ((elem, value) <- obj.computePageRank(sparkSession, mappings, ConfigFactory.load()
-      .getInt("spark.iterations"))) {
+
+    val result = obj.computePageRank(sparkSession, mappings, args(2).toInt)
+    for ((elem, value) <- result) {
 
       logger.info(elem + " = " + value)
     }
+
+    sparkSession.sparkContext.parallelize(result.toSeq).saveAsTextFile("output.txt")
 
 
     logger.info("Completed computation of page ranks")
