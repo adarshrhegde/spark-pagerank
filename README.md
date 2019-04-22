@@ -7,10 +7,11 @@ The program follows the following structure:
 
 1. Load xml input using databricks spark xml and split the xml object using the "article" tag into a list of xml elements:
 
-	sparkSession.sqlContext.read.format("com.databricks.spark.xml")
-      .option("rowTag", "article")
-      .load("sample.xml")
-	  
+
+		sparkSession.sqlContext.read.format("com.databricks.spark.xml")
+		  .option("rowTag", "article")
+		  .load("sample.xml")
+
 	  The above code creates a sql.DataFrame. Dataframe is a distributed collection of data that provides the benefits of RDD. 
 	  Using a Dataframe, we can query named columns within the dataframe which makes it easy to access data using xml tags. In 
 	  the above case articles can be accessed like a list.
@@ -19,9 +20,10 @@ The program follows the following structure:
 
 2. For each article xml, we extract the Professors and publication venues and generate tuples for each combination:
 
-	<author>A1</author>
-	<author>A2</author>
-	<publication>P1</publication>
+
+		<author>A1</author>
+		<author>A2</author>
+		<publication>P1</publication>
 
 	This generates the following tuples - (A1,A2), (A2,A1), (A1,P1), (P1,A1), (A2,P1) (P1,A2)
 	
@@ -29,10 +31,13 @@ The program follows the following structure:
 4. The list of tuples is fed into the Page Rank algorithm and page ranks are calculated for each item (professor/publication venue)
 
 
-Input: The input file can loaded in the file system or hdfs. The path to the file needs to be provided as an argument. (e.g. 
-"//hdfs://quickstart.cloudera:8020/user/spark/dblp.xml")
+Input: 
 
-Output: The output of the program is a file with mapping of (K->V) pairs where K is the professor/publication venue and V is the page rank value.
+The input file can loaded in the file system or hdfs. The path to the file needs to be provided as an argument. (e.g. "//hdfs://quickstart.cloudera:8020/user/spark/dblp.xml")
+
+Output:
+
+The output of the program is a file with (K->V) pairs where K is the professor/publication venue and V is the page rank value.
 
 Config:
 
@@ -40,14 +45,14 @@ Config:
 
 	Note: Some of the following configs are only used for test
 	
-spark {
+		spark {
 
-  hadoopDir = "C:\\winutils"  								[Path to winutils.exe file. For windows only, for other OS leave blank ""]
-  xmlLibrary = "com.databricks.spark.xml"  					[The xml library used to process the input]
-  rowTag = "article" 										[The xml tag used to split the input]
-  accumulatorName = "Mapping"								[Name of the accumulator used to store the tuples]
-  iterations = 10											[Number of iterations used by the page rank algorithm]
-}
+		  hadoopDir = "C:\\winutils"  								[Path to winutils.exe file. For windows only, for other OS leave blank ""]
+		  xmlLibrary = "com.databricks.spark.xml"  					[The xml library used to process the input]
+		  rowTag = "article" 										[The xml tag used to split the input]
+		  accumulatorName = "Mapping"								[Name of the accumulator used to store the tuples]
+		  iterations = 10											[Number of iterations used by the page rank algorithm]
+		}
 
 Setup:
 
@@ -59,9 +64,13 @@ Setup:
 	
 	Programming Language: Scala
  
-Environment:
+Environment and how to run:
 
-1. Local IntelliJ: Execute the scala program com.uic.spark.PageRankMain
+1. Local IntelliJ: Execute the scala program com.uic.spark.PageRankMain or use sbt as follows:
+
+
+	sbt clean compile "run <input_file> <output_file> <no_of_iterations>"    
+
 
 2. Cloudera QuickStart VM: 
 
@@ -81,7 +90,7 @@ Environment:
 		
 	c. In the shell, enter the following
 		
-		com.uic.spark.PageRankMain.main(null)
+		com.uic.spark.PageRankMain.main(Array("<input_file>", "<output_file>", "<no_of_iterations>"))
 		
 
 Unit Test Cases:
