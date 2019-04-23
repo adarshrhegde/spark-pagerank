@@ -1,0 +1,7 @@
+Hi Adarsh:
+it is an ok homework even though you didn't produce the outputs, you didn't implement the real pagerank algorithm and you didn't deploy it on aws. Your documentation is skimpy and the code is sparsely commented.
+
+Anyway, you have met the baseline requirements, you earned 3.5%.
+
+Thank you,
+Mark
